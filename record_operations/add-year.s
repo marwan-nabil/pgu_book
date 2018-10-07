@@ -26,9 +26,12 @@ _start:
 	movl $0, %ecx
 	movl $0666, %edx
 	int $SYS_TRAP
-
 	movl %eax, ST_IN_FD(%ebp)
 
+	# checking the open call for error
+	cmpl $0, %eax
+	jl error_condition
+	
 	movl $SYS_OPEN, %eax
 	movl $output_file_name, %ebx
 	movl $0101, %ecx
@@ -61,3 +64,15 @@ end_loop:
 	movl $SYS_EXIT, %eax
 	movl $0, %ebx
 	int $SYS_TRAP
+
+error_condition:
+	.section .data
+no_open_file_code:
+	.ascii "001: \0"
+no_open_file_message:
+	.ascii "Error, cannot open the Input file.\0"
+
+	.section .text
+	pushl $no_open_file_message
+	pushl $no_open_file_code
+	call error_exit

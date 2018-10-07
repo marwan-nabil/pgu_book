@@ -7,58 +7,52 @@
 	.section .data
 	# 3 records, properly padded
 record_1:
-record_2:
-record_3:
-	.ascii "aaaa"
-	/* record_1:
-	.ascii "Marwan"
-	.rept 34
+	.ascii "Fredrick\0"
+	.rept 31
 	.byte 0
 	.endr
-	.ascii "Nabil"
-	.rept 35
+	.ascii "Bartlett\0"
+	.rept 31
 	.byte 0
 	.endr
-	.ascii "alexandria, Egypt."
-	.rept 222
+	.ascii "4242 S Prairie\nTulsa, OK 55555\0"
+	.rept 209
 	.byte 0
 	.endr
 	.long 23
 record_2:
-	.ascii "Marwan"
+	.ascii "Marwan\0"
+	.rept 33
+	.byte 0
+	.endr
+	.ascii "Nabil\0"
 	.rept 34
 	.byte 0
 	.endr
-	.ascii "Nabil"
-	.rept 35
-	.byte 0
-	.endr
-	.ascii "alexandria, Egypt."
-	.rept 222
+	.ascii "alexandria, Egypt.\0"
+	.rept 221
 	.byte 0
 	.endr
 	.long 23
 record_3:
-	.ascii "Marwan"
+	.ascii "Marwan\0"
+	.rept 33
+	.byte 0
+	.endr
+	.ascii "Nabil\0"
 	.rept 34
 	.byte 0
 	.endr
-	.ascii "Nabil"
-	.rept 35
-	.byte 0
-	.endr
-	.ascii "alexandria, Egypt."
-	.rept 222
+	.ascii "alexandria, Egypt.\0"
+	.rept 221
 	.byte 0
 	.endr
 	.long 23
-*/
-	# stack positions
-	.equ ST_ARGC, 0			# argument count is the top of stack when program starts
-	.equ ST_ARG1, 4			# first argument: name of the program
-	.equ ST_ARG2, 8			# second argument: file name
-	.equ ST_FD, -4
 
+file_name:
+	.ascii "test.dat\0"
+
+	.equ ST_FD, -4
 	.section .text
 	.globl _start
 _start:
@@ -66,7 +60,7 @@ _start:
 	subl $4, %esp
 	
 	movl $SYS_OPEN, %eax
-	movl ST_ARG2(%ebp), %ebx
+	movl $file_name, %ebx
 	movl $0101, %ecx
 	movl $0666, %edx
 	int $SYS_TRAP

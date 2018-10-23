@@ -24,6 +24,6 @@ read-records.o: read-records.s linux-defs.s record-defs.s
 record-operations.o: record-operations.s linux-defs.s record-defs.s
 	as -g --32 record-operations.s -o record-operations.o
 write-records.o: write-records.s linux-defs.s record-defs.s
-	as -g --32 write-records.s -o write-records.o
+	as --32 write-records.s -o write-records.o
 error-exit.o: error-exit.s linux-defs.s
-	as -g --32 error-exit.s -o error-exit.o
+	as --32 error-exit.s -o error-exit.o
